@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+
 import { getChatMessages, sendMessage } from "../api/minibot";
 import { generateAssistantResponse } from "../api/minibot";
 
