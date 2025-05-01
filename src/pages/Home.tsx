@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from "react";
 import { getAssistants, createChat } from "../api/minibot";
 import ChatWindow from "../components/ChatWindow";
 import { useSearchParams } from "react-router-dom";
