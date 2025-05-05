@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://anamorfos-api.onrender.com/api";
+const BASE_URL = "https://anamorfos-backend.onrender.com/api";
 
 
 export async function getAssistants() {
