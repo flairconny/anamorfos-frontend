@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import axios from "axios";
 import Home from "./pages/Home";
 
 declare global {
