@@ -5,25 +5,29 @@ interface Assistant {
   id: number;
   name: string;
   description: string;
+  user_id: number | null;
 }
 
 export default function Home() {
   const [assistants, setAssistants] = useState<Assistant[]>([]);
-  const [userId] = useState<number>(123456); // заглушка, будет приходить из Telegram
   const [loading, setLoading] = useState<boolean>(true);
+  const userId = localStorage.getItem("user_id");
 
   useEffect(() => {
     axios
       .get("https://anamorfos-backend.onrender.com/api/assistants")
       .then((res) => {
-        setAssistants(res.data);
+        const filtered = res.data.filter(
+          (a: Assistant) => a.user_id === null || String(a.user_id) === userId
+        );
+        setAssistants(filtered);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Ошибка при получении ассистентов:", err);
         setLoading(false);
       });
-  }, []);
+  }, [userId]);
 
   const createChat = async (assistantId: number) => {
     try {
@@ -37,7 +41,6 @@ export default function Home() {
       );
       const chatId = response.data.chat_id;
       alert(`Чат создан! ID: ${chatId}`);
-      // Здесь можно будет сделать редирект на страницу чата
     } catch (err) {
       console.error("Ошибка при создании чата:", err);
     }
@@ -69,4 +72,5 @@ export default function Home() {
     </div>
   );
 }
+
 

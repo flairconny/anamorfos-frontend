@@ -3,25 +3,21 @@ import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Home from "./pages/Home";
 
+declare global {
+  interface Window {
+    Telegram?: any;
+  }
+}
+
 export default function App() {
   useEffect(() => {
-    const tg = (window as any).Telegram?.WebApp;
-    const user = tg?.initDataUnsafe?.user;
-
-    if (user) {
-      console.log("👤 Пользователь:", user);
-
-      axios.post("https://anamorfos-backend.onrender.com/api/auth", {
-        telegram_chat_id: user.id,
-        name: user.first_name,
-        username: user.username,
-      }).then(() => {
-        console.log("✅ Авторизация прошла успешно");
-      }).catch((err) => {
-        console.error("❌ Ошибка при авторизации:", err);
-      });
-    } else {
-      console.warn("⚠️ Telegram WebApp user not found");
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      const userId = tg.initDataUnsafe?.user?.id;
+      if (userId) {
+        localStorage.setItem("user_id", String(userId));
+      }
     }
   }, []);
 
